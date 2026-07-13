@@ -374,20 +374,12 @@ export default function HomePage() {
 
               <div className="flex flex-col gap-2.5 mt-2">
                 <a
-                  href="https://t.me/vipinvest_group"
+                  href="https://t.me/+s4anzVeVpwYwYzU0"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full h-11 bg-[#229ED9] hover:bg-[#0088cc] text-white font-bold rounded-2xl shadow-md flex items-center justify-center gap-1.5 transition-all text-xs text-center"
                 >
-                  Telegram Group
-                </a>
-                <a
-                  href="https://t.me/vipinvest"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full h-11 bg-[#0088cc] hover:bg-[#0077b3] text-white font-bold rounded-2xl shadow-md flex items-center justify-center gap-1.5 transition-all text-xs text-center"
-                >
-                  Telegram Support
+                  Telegram Channel
                 </a>
                 <button 
                   onClick={() => setShowPopup(false)}

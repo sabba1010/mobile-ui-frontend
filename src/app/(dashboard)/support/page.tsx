@@ -64,25 +64,11 @@ export default function SupportPage() {
 
           {[
             {
-              label: "Telegram",
-              sub: "Chat with our support team",
-              href: "https://t.me/vipinvest",
-              icon: Send,
-              bg: "from-[#0088cc] to-[#00a3e0]",
-            },
-            {
               label: "Telegram Channel",
               sub: "Get official announcements",
-              href: "https://t.me/vipinvest_channel",
+              href: "https://t.me/+s4anzVeVpwYwYzU0",
               icon: MessageSquare,
               bg: "from-[#0088cc] to-[#229ED9]",
-            },
-            {
-              label: "Telegram Group",
-              sub: "Join our community",
-              href: "https://t.me/vipinvest_group",
-              icon: Users,
-              bg: "from-[#229ED9] to-[#0088cc]",
             },
           ].map((item, i) => (
             <a
