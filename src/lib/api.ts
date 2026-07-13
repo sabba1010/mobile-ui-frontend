@@ -1,4 +1,4 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ||
   (process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5000'
-    : 'http://localhost:5000');
+    ? 'https://mobile-ui-backnend.vercel.app'
+    : 'https://mobile-ui-backnend.vercel.app');
