@@ -80,7 +80,7 @@ export const WITHDRAW_RULES = [
   "15% tax is deducted from each withdrawal.",
   "Withdrawals usually arrive immediately, but may take up to 24 hours.",
   "Ensure your withdrawal account information is correct.",
-  "You must invest first before withdrawing money.",
+  "You must purchase at least one product before you can make a withdrawal — including the GHS 30 login bonus.",
 ];
 
 export const TRANSACTION_HISTORY = [

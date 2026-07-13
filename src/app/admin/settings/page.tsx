@@ -11,7 +11,7 @@ export default function AdminSettingsPage() {
   const [config, setConfig] = useState({
     minDeposit: 50,
     depositInstructions: "Please transfer exact amount to our MOMO number.",
-    minWithdrawal: 100,
+    minWithdrawal: 30,
     withdrawFee: 5,
     commissionRateL1: 20,
     commissionRateL2: 3,
@@ -34,7 +34,7 @@ export default function AdminSettingsPage() {
             setConfig({
               minDeposit: data.settings.minDeposit || 50,
               depositInstructions: data.settings.depositInstructions || "",
-              minWithdrawal: data.settings.minWithdrawal || 100,
+              minWithdrawal: data.settings.minWithdrawal || 30,
               withdrawFee: data.settings.withdrawFee || 5,
               commissionRateL1: data.settings.commissionRateL1 !== undefined ? data.settings.commissionRateL1 : 20,
               commissionRateL2: data.settings.commissionRateL2 !== undefined ? data.settings.commissionRateL2 : 3,

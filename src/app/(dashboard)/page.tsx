@@ -340,7 +340,7 @@ export default function HomePage() {
         <div className="space-y-3">
           {[
             { q: "How are daily returns calculated?", a: "Returns are automatically credited to your account balance every 24 hours based on your active VIP plan." },
-            { q: "What is the minimum withdrawal?", a: "The minimum withdrawal amount is GHS 30. Withdrawals are processed within 24 hours." },
+            { q: "What is the minimum withdrawal?", a: "The minimum withdrawal amount is GHS 30. However, you must purchase at least one product before you can make any withdrawal, including the GHS 30 login bonus." },
             { q: "How do the referral rewards work?", a: "Earn commissions of 20% on Level 1, 3% on Level 2, and 2% on Level 3 referrals directly in your account balance." }
           ].map((faq, i) => (
             <div key={i} className="bg-white p-4 rounded-2xl shadow-sm border border-violet-100">

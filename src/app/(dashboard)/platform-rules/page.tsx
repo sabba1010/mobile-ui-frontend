@@ -19,7 +19,8 @@ export default function PlatformRulesPage() {
   const rules = [
     "New users receive 30 Ghanaian Cedis upon registration.",
     "Earn commissions of 20%, 3%, and 2% respectively by referring friends.",
-    "The minimum withdrawal amount is 30 Ghanaian Cedis; you can withdraw at any time.",
+    "The minimum withdrawal amount is 30 Ghanaian Cedis.",
+    "You must purchase at least one product before you can make a withdrawal — including the GHS 30 login bonus.",
     "Earn a 10% rebate on the product value with your first purchase.",
     "No withdrawal delays; service available 24/7. Withdraw anytime, no waiting.",
     "The platform has a comprehensive risk management system that strictly reviews and controls every transaction to ensure the safety and compliance of your funds.",

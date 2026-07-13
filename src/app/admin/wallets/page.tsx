@@ -9,7 +9,7 @@ export default function AdminWalletsPage() {
   const [form, setForm] = useState({
     minDeposit: 50,
     depositInstructions: "",
-    minWithdrawal: 100,
+    minWithdrawal: 30,
     withdrawFee: 5
   });
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ export default function AdminWalletsPage() {
           setForm({
             minDeposit: data.settings.minDeposit ?? 50,
             depositInstructions: data.settings.depositInstructions ?? "",
-            minWithdrawal: data.settings.minWithdrawal ?? 100,
+            minWithdrawal: data.settings.minWithdrawal ?? 30,
             withdrawFee: data.settings.withdrawFee ?? 5
           });
         }
