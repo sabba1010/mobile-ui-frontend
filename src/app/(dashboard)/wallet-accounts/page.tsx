@@ -20,6 +20,7 @@ export default function WalletAccountsPage() {
   const [walletType, setWalletType] = useState("");
   const [walletNumber, setWalletNumber] = useState("");
   const [walletLabel, setWalletLabel] = useState("");
+  const [bankName, setBankName] = useState("");
 
   const fetchWallets = async () => {
     try {
@@ -49,8 +50,8 @@ export default function WalletAccountsPage() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!walletType || !walletLabel || !walletNumber) {
-      toast.error("Please fill in all fields");
+    if (!walletType || !walletLabel || !walletNumber || (walletType === 'bank' && !bankName)) {
+      toast.error("Please fill in all required fields");
       return;
     }
 
@@ -64,7 +65,7 @@ export default function WalletAccountsPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ type: walletType, label: walletLabel, number: walletNumber })
+        body: JSON.stringify({ type: walletType, label: walletLabel, number: walletNumber, bankName: walletType === 'bank' ? bankName : '' })
       });
 
       const data = await res.json();
@@ -74,6 +75,7 @@ export default function WalletAccountsPage() {
         setWalletNumber("");
         setWalletLabel("");
         setWalletType("");
+        setBankName("");
         setShowAdd(false);
       } else {
         toast.error(data.message || "Failed to add wallet");
@@ -176,7 +178,10 @@ export default function WalletAccountsPage() {
                     <p className="font-semibold text-slate-900 text-sm">{wallet.label}</p>
                     {wallet.isDefault && <span className="text-[10px] font-bold bg-indigo-600 text-white px-1.5 py-0.5 rounded-md">Default</span>}
                   </div>
-                  <p className="text-xs text-slate-500">{wallet.number}</p>
+                  <p className="text-xs text-slate-500">
+                    {wallet.type === 'bank' && wallet.bankName ? `${wallet.bankName} - ` : ""}
+                    {wallet.number}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-2 mt-3 pt-3 border-t border-slate-100">
@@ -229,11 +234,24 @@ export default function WalletAccountsPage() {
                   <input 
                     value={walletLabel} 
                     onChange={(e) => setWalletLabel(e.target.value)} 
-                    placeholder="e.g. MTN MoMo or GCB Savings"
+                    placeholder={walletType === 'bank' ? "e.g. John Doe" : "e.g. MTN MoMo - John"}
                     required
                     className="w-full h-10 px-3 bg-slate-100 border border-slate-200 rounded text-[13px] text-slate-700 focus:outline-none"
                   />
                 </div>
+
+                {walletType === 'bank' && (
+                  <div>
+                    <label className="text-[13px] font-medium text-black mb-1.5 block">*Bank Name</label>
+                    <input 
+                      value={bankName} 
+                      onChange={(e) => setBankName(e.target.value)} 
+                      placeholder="e.g. GCB Bank, Ecobank"
+                      required={walletType === 'bank'}
+                      className="w-full h-10 px-3 bg-slate-100 border border-slate-200 rounded text-[13px] text-slate-700 focus:outline-none"
+                    />
+                  </div>
+                )}
 
                 <div>
                   <label className="text-[13px] font-medium text-black mb-1.5 block">*Account Number / Phone</label>
