@@ -62,6 +62,16 @@ export default function DepositPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    let base64Image = "";
+    if (file) {
+      base64Image = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+    }
+
     const numAmount = Number(amount);
     if (!amount || isNaN(numAmount) || numAmount < minDeposit) {
       toast.error(`Minimum deposit is GHS ${minDeposit}`);
@@ -84,7 +94,8 @@ export default function DepositPage() {
         body: JSON.stringify({
           amount: numAmount,
           method: method === "bank" ? "Bank Transfer" : "Mobile Money",
-          trxId
+          trxId,
+          image: base64Image
         })
       });
 

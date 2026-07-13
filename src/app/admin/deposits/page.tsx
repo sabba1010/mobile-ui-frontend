@@ -75,6 +75,7 @@ export default function AdminDepositsPage() {
       amount: d.amount || 0,
       method: d.description || "Bank Transfer",
       trxId: d.trxId || "N/A",
+      image: d.image || null,
       date: d.createdAt ? new Date(d.createdAt).toLocaleDateString() : "",
       status: d.status || "pending"
     };
@@ -144,21 +145,21 @@ export default function AdminDepositsPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3.5">
-                      {d.status === "pending" && (
-                        <div className="flex gap-2">
-                          <button onClick={() => updateStatus(d.id, "approved")} className="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center hover:bg-emerald-200 transition-colors">
-                            <Check size={14} />
-                          </button>
-                          <button onClick={() => updateStatus(d.id, "rejected")} className="w-8 h-8 bg-red-100 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-200 transition-colors">
-                            <X size={14} />
-                          </button>
-                        </div>
-                      )}
-                      {d.status !== "pending" && (
+                      <div className="flex gap-2">
                         <button onClick={() => setViewDeposit(d)} className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-slate-200 transition-colors">
                           <Eye size={14} className="text-slate-500" />
                         </button>
-                      )}
+                        {d.status === "pending" && (
+                          <>
+                            <button onClick={() => updateStatus(d.id, "approved")} className="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center hover:bg-emerald-200 transition-colors">
+                              <Check size={14} />
+                            </button>
+                            <button onClick={() => updateStatus(d.id, "rejected")} className="w-8 h-8 bg-red-100 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-200 transition-colors">
+                              <X size={14} />
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </motion.tr>
                 ))
@@ -195,8 +196,16 @@ export default function AdminDepositsPage() {
               </div>
               <div>
                 <p className="text-xs font-semibold text-slate-500 uppercase">TRX ID</p>
-                <p className="font-mono text-sm text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-100">{viewDeposit.trxId}</p>
+                <p className="font-mono text-sm text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-100 break-all">{viewDeposit.trxId}</p>
               </div>
+              {viewDeposit.image && (
+                <div>
+                  <p className="text-xs font-semibold text-slate-500 uppercase mb-1">Payment Proof</p>
+                  <a href={viewDeposit.image} target="_blank" rel="noopener noreferrer">
+                    <img src={viewDeposit.image} alt="Payment Proof" className="w-full h-32 object-cover rounded-xl border border-slate-200 hover:opacity-90 transition-opacity" />
+                  </a>
+                </div>
+              )}
               <div>
                 <p className="text-xs font-semibold text-slate-500 uppercase">Date</p>
                 <p className="font-medium text-slate-900">{viewDeposit.date}</p>
