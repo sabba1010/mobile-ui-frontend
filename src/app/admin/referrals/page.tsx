@@ -25,6 +25,14 @@ export default function AdminReferralsPage() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      if (res.status === 401) {
+        toast.error("Session expired. Please log in again.");
+        localStorage.removeItem("vip_token");
+        localStorage.removeItem("vip_role");
+        window.location.href = "/login";
+        return;
+      }
+
       if (res.ok) {
         const data = await res.json();
         if (data.success) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check, X, Clock } from "lucide-react";
+import { Check, X, Clock, Eye } from "lucide-react";
 import { API_URL } from "@/lib/api";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 export default function AdminWithdrawalsPage() {
   const [withdrawals, setWithdrawals] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [viewWithdrawal, setViewWithdrawal] = useState<any>(null);
 
   const fetchWithdrawals = async () => {
     try {
@@ -158,6 +159,11 @@ export default function AdminWithdrawalsPage() {
                           </button>
                         </div>
                       )}
+                      {w.status !== "pending" && (
+                        <button onClick={() => setViewWithdrawal(w)} className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-slate-200 transition-colors">
+                          <Eye size={14} className="text-slate-500" />
+                        </button>
+                      )}
                     </td>
                   </motion.tr>
                 ))
@@ -166,6 +172,59 @@ export default function AdminWithdrawalsPage() {
           </table>
         </div>
       </div>
+
+      {/* View Modal */}
+      {viewWithdrawal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-xl">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-bold text-slate-900">Withdrawal Details</h3>
+              <button onClick={() => setViewWithdrawal(null)} className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-slate-200">
+                <X size={16} className="text-slate-500" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">User Phone</p>
+                <p className="font-bold text-slate-900">{viewWithdrawal.user}</p>
+              </div>
+              <div className="flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <div>
+                  <p className="text-xs font-semibold text-slate-500 uppercase">Amount</p>
+                  <p className="font-black text-rose-500">GHS {viewWithdrawal.amount.toLocaleString()}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-semibold text-slate-500 uppercase">Tax (15%)</p>
+                  <p className="font-bold text-slate-500">GHS {viewWithdrawal.tax.toLocaleString()}</p>
+                </div>
+              </div>
+              <div className="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                <p className="text-xs font-semibold text-emerald-600 uppercase">Total Received</p>
+                <p className="font-black text-emerald-600 text-lg">GHS {viewWithdrawal.received.toLocaleString()}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">Wallet / Description</p>
+                <p className="font-medium text-slate-900">{viewWithdrawal.wallet}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">Date</p>
+                <p className="font-medium text-slate-900">{viewWithdrawal.date}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">Status</p>
+                <span className={`inline-block mt-1 text-xs font-bold px-2.5 py-1 rounded-lg capitalize ${
+                  viewWithdrawal.status === "approved" || viewWithdrawal.status === "completed" ? "bg-emerald-100 text-emerald-700" :
+                  viewWithdrawal.status === "pending" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-600"
+                }`}>
+                  {viewWithdrawal.status}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

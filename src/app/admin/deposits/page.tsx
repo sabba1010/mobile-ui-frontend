@@ -9,6 +9,7 @@ import { toast } from "sonner";
 export default function AdminDepositsPage() {
   const [deposits, setDeposits] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [viewDeposit, setViewDeposit] = useState<any>(null);
 
   const fetchDeposits = async () => {
     try {
@@ -73,6 +74,7 @@ export default function AdminDepositsPage() {
       user: formattedPhone,
       amount: d.amount || 0,
       method: d.description || "Bank Transfer",
+      trxId: d.trxId || "N/A",
       date: d.createdAt ? new Date(d.createdAt).toLocaleDateString() : "",
       status: d.status || "pending"
     };
@@ -104,7 +106,7 @@ export default function AdminDepositsPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                {["User", "Amount", "Method", "Date", "Status", "Actions"].map(h => (
+                {["User", "Amount", "Method", "TRX ID", "Date", "Status", "Actions"].map(h => (
                   <th key={h} className="text-left px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider">{h}</th>
                 ))}
               </tr>
@@ -130,6 +132,7 @@ export default function AdminDepositsPage() {
                     <td className="px-4 py-3.5 font-semibold text-slate-900">{d.user}</td>
                     <td className="px-4 py-3.5 font-black text-emerald-600">GHS {d.amount.toLocaleString()}</td>
                     <td className="px-4 py-3.5 text-slate-700">{d.method}</td>
+                    <td className="px-4 py-3.5 font-mono text-xs text-slate-600">{d.trxId}</td>
                     <td className="px-4 py-3.5 text-slate-500">{d.date}</td>
                     <td className="px-4 py-3.5">
                       <span className={`text-xs font-bold px-2.5 py-1 rounded-lg inline-flex items-center gap-1 ${
@@ -152,7 +155,7 @@ export default function AdminDepositsPage() {
                         </div>
                       )}
                       {d.status !== "pending" && (
-                        <button className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center">
+                        <button onClick={() => setViewDeposit(d)} className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-slate-200 transition-colors">
                           <Eye size={14} className="text-slate-500" />
                         </button>
                       )}
@@ -164,6 +167,53 @@ export default function AdminDepositsPage() {
           </table>
         </div>
       </div>
+
+      {/* View Modal */}
+      {viewDeposit && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-xl">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-bold text-slate-900">Deposit Details</h3>
+              <button onClick={() => setViewDeposit(null)} className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-slate-200">
+                <X size={16} className="text-slate-500" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">User Phone</p>
+                <p className="font-bold text-slate-900">{viewDeposit.user}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">Amount</p>
+                <p className="font-black text-emerald-600">GHS {viewDeposit.amount.toLocaleString()}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">Method</p>
+                <p className="font-medium text-slate-900">{viewDeposit.method}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">TRX ID</p>
+                <p className="font-mono text-sm text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-100">{viewDeposit.trxId}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">Date</p>
+                <p className="font-medium text-slate-900">{viewDeposit.date}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 uppercase">Status</p>
+                <span className={`inline-block mt-1 text-xs font-bold px-2.5 py-1 rounded-lg capitalize ${
+                  viewDeposit.status === "approved" || viewDeposit.status === "completed" ? "bg-emerald-100 text-emerald-700" :
+                  viewDeposit.status === "pending" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-600"
+                }`}>
+                  {viewDeposit.status}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

@@ -105,7 +105,7 @@ export default function WithdrawPage() {
         },
         body: JSON.stringify({ 
           amount: numericAmount,
-          walletDetails: `${activeWallet.label} (${activeWallet.number})`
+          walletDetails: `${activeWallet.type === 'bank' ? 'Bank Account' : 'Mobile Money'} - ${activeWallet.label} (Acct: ${activeWallet.number})`
         })
       });
 

@@ -15,6 +15,7 @@ export default function DepositPage() {
   const router = useRouter();
   const [method, setMethod] = useState("bank");
   const [amount, setAmount] = useState("");
+  const [trxId, setTrxId] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [history, setHistory] = useState<any[]>([]);
@@ -82,7 +83,8 @@ export default function DepositPage() {
         },
         body: JSON.stringify({
           amount: numAmount,
-          method: method === "bank" ? "Bank Transfer" : "Mobile Money"
+          method: method === "bank" ? "Bank Transfer" : "Mobile Money",
+          trxId
         })
       });
 
@@ -90,6 +92,7 @@ export default function DepositPage() {
       if (res.ok && data.success) {
         setSubmitted(true);
         setAmount("");
+        setTrxId("");
         setFile(null);
         toast.success("Deposit request submitted successfully!");
         fetchHistoryAndSettings();
@@ -143,9 +146,10 @@ export default function DepositPage() {
             <motion.div key="bank" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
               className="bg-blue-50 border border-blue-200 rounded-2xl p-4 space-y-1">
               <p className="font-bold text-blue-800 text-sm mb-1">Bank Transfer Details & Instructions</p>
-              <p className="text-sm text-blue-700">Bank: <strong>GCB Bank</strong></p>
-              <p className="text-sm text-blue-700">Account: <strong>1234567890</strong></p>
-              <p className="text-sm text-blue-700">Name: <strong>VIP INVEST LTD</strong></p>
+              <p className="text-sm text-blue-700">Bank Name: <strong>GCB Bank</strong></p>
+              <p className="text-sm text-blue-700">Account Number: <strong>8071010033230</strong></p>
+              <p className="text-sm text-blue-700">Name on account: <strong>Moses Muomaalah</strong></p>
+              <p className="text-sm text-blue-700">Phone number: <strong>0204222980</strong></p>
               <p className="text-xs text-blue-600/90 mt-2 font-medium bg-blue-100/50 p-2 rounded-xl border border-blue-200/50 leading-relaxed">
                 💡 {depositInstructions}
               </p>
@@ -164,6 +168,14 @@ export default function DepositPage() {
                 className="w-full h-12 pl-14 pr-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-slate-700 mb-2 block">Transaction ID (TRX ID)</label>
+            <input type="text" value={trxId} onChange={(e) => setTrxId(e.target.value)}
+              placeholder="Enter TRX ID from your payment" required
+              className="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
           </div>
 
           <div>
