@@ -23,7 +23,7 @@ const NAV_ITEMS = [
   { label: "Income Records", href: "/admin/income", icon: TrendingUp },
   { label: "Announcements", href: "/admin/announcements", icon: Megaphone },
   // { label: "Banner Mgmt", href: "/admin/banners", icon: Image },
-  { label: "Support Tickets", href: "/admin/tickets", icon: HeadphonesIcon },
+  // { label: "Support Tickets", href: "/admin/tickets", icon: HeadphonesIcon },
   { label: "Wallet Settings", href: "/admin/wallets", icon: Wallet },
   // { label: "Reports", href: "/admin/reports", icon: BarChart3 },
   { label: "Settings", href: "/admin/settings", icon: Settings },
