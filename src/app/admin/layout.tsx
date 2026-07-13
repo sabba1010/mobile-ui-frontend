@@ -1,8 +1,8 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, Users, Package, ArrowDownToLine, ArrowUpFromLine,
   ReceiptText, GitBranch, TrendingUp, Megaphone, Image, HeadphonesIcon,
@@ -32,7 +32,22 @@ const NAV_ITEMS = [
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    const role = localStorage.getItem("vip_role");
+    if (role !== "admin" && role !== "superadmin") {
+      router.push("/");
+    } else {
+      setIsAuthorized(true);
+    }
+  }, [router]);
+
+  if (!isAuthorized) {
+    return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Loading...</div>;
+  }
 
   const Sidebar = ({ mobile = false }: { mobile?: boolean }) => (
     <div className={cn("flex flex-col h-full", mobile ? "" : "")}>
